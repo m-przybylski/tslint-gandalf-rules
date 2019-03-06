@@ -22,7 +22,7 @@ function walk(ctx: Lint.WalkContext<void>) {
   const cb = (node: ts.Node) => {
     ts.forEachChild(node, cb);
     if (isPropertyDeclaration(node)) {
-      if (isArrowFunction(node.initializer)) {
+      if (node.initializer !== undefined && isArrowFunction(node.initializer)) {
         ctx.addFailureAtNode(node, Rule.FAILURE_STRING, [...prepareFix(node)]);
       }
     }
@@ -38,7 +38,7 @@ function isArrowFunction(node: ts.Node): node is ts.ArrowFunction {
 }
 
 function prepareFix(node) {
-  const af = node.initializer;
+  const af: ts.ArrowFunction = node.initializer;
   const block = getChildOfKind(af, ts.SyntaxKind.Block);
   const assignmentRemoveFix = Lint.Replacement.deleteFromTo(node.name.getEnd(), af.getStart());
   if (block !== undefined) {
@@ -51,11 +51,30 @@ function prepareFix(node) {
   const arrowReplaceFix = Lint.Replacement.replaceFromTo(
     af.equalsGreaterThanToken.getStart(),
     af.equalsGreaterThanToken.getEnd(),
-    '{ return',
+    '{',
   );
+
   const semicolon = getChildOfKind(node, ts.SyntaxKind.SemicolonToken);
   const closingFunctionFix = semicolon
-    ? Lint.Replacement.replaceFromTo(semicolon.getStart(), semicolon.getEnd(), ' }')
+    ? Lint.Replacement.replaceFromTo(semicolon.getStart(), semicolon.getEnd(), '}')
     : Lint.Replacement.appendText(node.getEnd(), '}');
-  return [assignmentRemoveFix, arrowReplaceFix, closingFunctionFix];
+
+  const parenthesizedExpression = getChildOfKind(af, ts.SyntaxKind.ParenthesizedExpression);
+  if (parenthesizedExpression) {
+    const parenthesizedExpressionFix = [
+      Lint.Replacement.replaceFromTo(
+        parenthesizedExpression.getStart(),
+        parenthesizedExpression.getStart() + 1,
+        'return ',
+      ),
+      Lint.Replacement.deleteFromTo(parenthesizedExpression.getEnd() - 1, parenthesizedExpression.getEnd()),
+    ];
+    return [assignmentRemoveFix, arrowReplaceFix, ...parenthesizedExpressionFix, closingFunctionFix];
+  }
+
+  const a = af.getChildren();
+  const lastElement = a[a.length - 1]
+  const returnFix = Lint.Replacement.appendText(lastElement.getStart(), 'return ');
+
+  return [assignmentRemoveFix, arrowReplaceFix, returnFix, closingFunctionFix];
 }

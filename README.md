@@ -18,7 +18,7 @@ Add the following path to the `rulesDirectory` setting in your `tslint.json` fil
 
 ```json
 {
-   "rulesDirectory": [
+   "extends": [
      "tslint-gandalf-rules"
    ],
    "rules": {

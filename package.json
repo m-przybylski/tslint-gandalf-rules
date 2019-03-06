@@ -1,8 +1,8 @@
 {
   "name": "tslint-gandalf-rules",
-  "version": "0.0.4",
+  "version": "0.0.7",
   "description": "You shall not pass",
-  "main": "tslint.json",
+  "main": "index.js",
   "files": [
     "dist/**/*"
   ],
