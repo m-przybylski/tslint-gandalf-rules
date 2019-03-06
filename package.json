@@ -1,10 +1,15 @@
 {
   "name": "tslint-gandalf-rules",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "You shall not pass",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-przybylski/tslint-gandalf-rules"
+  },
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "prepublish": "yarn build"
   },
   "devDependencies": {
     "@types/jest": "^24.0.9",
@@ -23,8 +28,9 @@
       "ts",
       "js"
     ],
-    "transform": {
-      "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    "preset": "ts-jest",
+    "globals": {
+      "ts-jest": {}
     },
     "testMatch": [
       "**/**/*.spec.ts"
