@@ -1,7 +1,8 @@
 {
   "name": "tslint-gandalf-rules",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "You shall not pass",
+  "main": "./dist",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/m-przybylski/tslint-gandalf-rules"
@@ -15,14 +16,21 @@
     "@types/jest": "^24.0.9",
     "jest": "^24.1.0",
     "ts-jest": "^24.0.0",
+    "tslint": "^5.10.0",
     "typescript": "^3.3.3"
   },
   "dependencies": {
-    "tslint": "^5.10.0",
     "tsutils": "^3.8.0"
   },
-  "author": "",
-  "license": "ISC",
+  "peerDependencies": {
+    "tslint": "^5.0.0"
+  },
+  "author": "Maciej Przybylski",
+  "license": "MIT",
+  "keywords": [
+    "tslint",
+    "typescript"
+  ],
   "jest": {
     "moduleFileExtensions": [
       "ts",
