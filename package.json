@@ -1,0 +1,34 @@
+{
+  "name": "tslint-gandalf-rules",
+  "version": "0.0.1",
+  "description": "You shall not pass",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.9",
+    "jest": "^24.1.0",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.3.3"
+  },
+  "dependencies": {
+    "tslint": "^5.10.0",
+    "tsutils": "^3.8.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": [
+      "**/**/*.spec.ts"
+    ],
+    "testEnvironment": "node"
+  }
+}
