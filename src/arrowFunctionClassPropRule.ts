@@ -22,7 +22,7 @@ function walk(ctx: Lint.WalkContext<void>) {
   const cb = (node: ts.Node) => {
     ts.forEachChild(node, cb);
     if (isPropertyDeclaration(node)) {
-      if (isArrowFunction(node.initializer)){
+      if (isArrowFunction(node.initializer)) {
         ctx.addFailureAtNode(node, Rule.FAILURE_STRING, [...prepareFix(node)]);
       }
     }
@@ -34,27 +34,28 @@ function isPropertyDeclaration(node: ts.Node): node is ts.PropertyDeclaration {
   return node.kind === ts.SyntaxKind.PropertyDeclaration;
 }
 function isArrowFunction(node: ts.Node): node is ts.ArrowFunction {
-  return node.kind === ts.SyntaxKind.ArrowFunction
+  return node.kind === ts.SyntaxKind.ArrowFunction;
 }
 
 function prepareFix(node) {
   const af = node.initializer;
   const block = getChildOfKind(af, ts.SyntaxKind.Block);
-  const assignmentRemoveFix = Lint.Replacement.deleteFromTo(node.name.getEnd(), af.getStart())
+  const assignmentRemoveFix = Lint.Replacement.deleteFromTo(node.name.getEnd(), af.getStart());
   if (block !== undefined) {
     const arrowReplaceFix = Lint.Replacement.deleteFromTo(
       af.equalsGreaterThanToken.getStart(),
-      af.equalsGreaterThanToken.getEnd())    
-    return [assignmentRemoveFix, arrowReplaceFix]
+      af.equalsGreaterThanToken.getEnd(),
+    );
+    return [assignmentRemoveFix, arrowReplaceFix];
   }
   const arrowReplaceFix = Lint.Replacement.replaceFromTo(
     af.equalsGreaterThanToken.getStart(),
-    af.equalsGreaterThanToken.getEnd(), '{ return')
+    af.equalsGreaterThanToken.getEnd(),
+    '{ return',
+  );
   const semicolon = getChildOfKind(node, ts.SyntaxKind.SemicolonToken);
-  const closingFunctionFix =  semicolon ? 
-  Lint.Replacement.replaceFromTo(semicolon.getStart(), semicolon.getEnd(), ' }') :
-  Lint.Replacement.appendText(node.getEnd(), '}')
-  return [assignmentRemoveFix, arrowReplaceFix, closingFunctionFix]
+  const closingFunctionFix = semicolon
+    ? Lint.Replacement.replaceFromTo(semicolon.getStart(), semicolon.getEnd(), ' }')
+    : Lint.Replacement.appendText(node.getEnd(), '}');
+  return [assignmentRemoveFix, arrowReplaceFix, closingFunctionFix];
 }
-
-

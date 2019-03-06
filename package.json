@@ -1,8 +1,11 @@
 {
   "name": "tslint-gandalf-rules",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "You shall not pass",
-  "main": "./dist",
+  "main": "tslint.json",
+  "files": [
+    "dist/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/m-przybylski/tslint-gandalf-rules"
@@ -10,11 +13,14 @@
   "scripts": {
     "build": "tsc",
     "test": "jest",
+    "version": "git add -A src",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\" \"src/**/*.json\"",
     "prepublish": "yarn build"
   },
   "devDependencies": {
     "@types/jest": "^24.0.9",
     "jest": "^24.1.0",
+    "prettier": "^1.16.4",
     "ts-jest": "^24.0.0",
     "tslint": "^5.10.0",
     "typescript": "^3.3.3"
