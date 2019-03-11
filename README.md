@@ -54,6 +54,28 @@ No options at the moment
 
 </details>
 
+## `no-function-as-input`
+<details>
+  <summary>prevent from passing function as an input to Angular component</summary>
+
+#### Rationale:
+
+
+#### Usage:
+```json
+...
+"rules": {
+  "no-function-as-input": true
+}
+...
+```
+
+#### Options:
+
+No options at the moment
+
+</details>
+
 # Contributions and Development
 
 Issue reports and pull requests are highly welcome! Please make sure to provide sensible tests along with your pull request.

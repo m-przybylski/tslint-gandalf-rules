@@ -14,5 +14,4 @@ module.exports = () => ({
   },
 
   testFramework: 'jest',
-  debug: true
 });
